@@ -1,26 +1,5 @@
 const { poolPromise } = require('../../store/mysql')
 
-const dbDiseases = [
-   {
-      name: 'broca del fruto',
-      symptom: ['caída de cerezas prematuras', 'Menor peso de la cereza']
-   },
-   {
-      name: 'la roya del cafe',
-      symptom: ['Polvillo naranja en el interior de las hojas']
-   },
-   {
-      name: 'el minador de la hoja',
-      symptom: ['Manchas oscuras y acuosas o marrones']
-   },
-   {
-      name: 'mal rosado',
-      symptom: [
-         'Presencia de membrana y costras rosadas',
-         'Ramas afectadas pierden hojas y mueren'
-      ]
-   }
-]
 async function getDiseaseAndAnomalies(id) {
    try {
       const [rows] = await poolPromise.query(
@@ -88,13 +67,18 @@ async function getDisease(idPlanta, hechos) {
       let probability = match(hechos, diseases[disease].symptom)
       if (probability > 0) {
          resultdiseases.push({
+            id_disease: diseases[disease].id_enfermedad,
             name: diseases[disease].name,
-            probability: `${probability}%`
+            probability: probability
          })
       }
    }
-   console.log(resultdiseases)
-   return resultdiseases
+
+   const resultDiseasesSorted = resultdiseases.sort((a, b) => {
+      return b.probability - a.probability
+   })
+
+   return resultDiseasesSorted
 }
 async function getQuestions(id) {
    try {

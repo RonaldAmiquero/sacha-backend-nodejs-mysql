@@ -12,11 +12,18 @@ router.get('/:id', async (req, res) => {
 
 router.post('/process', async (req, res) => {
    try {
-      let resultDiseases = await getDisease(req.body.idPlanta, req.body.hechos)
+      const { idPlanta, hechos } = req.body.data
+      let resultDiseases = await getDisease(idPlanta, hechos)
       success(req, res, resultDiseases)
    } catch (err) {
       error(req, res, err)
    }
+})
+
+router.get('/:id', async (req, res) => {
+   const { id } = req.params
+   const rta = await getQuestionsAnomalies(id)
+   success(req, res, rta)
 })
 
 module.exports = router
