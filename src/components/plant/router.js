@@ -5,7 +5,8 @@ const router = express.Router()
 
 router.get('/', async (req, res) => {
    try {
-      const plants = await getPlants()
+      const search = req.query.search
+      const plants = await getPlants(search)
       success(req, res, plants)
    } catch (err) {
       error(req, res, err)
