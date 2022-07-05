@@ -1,10 +1,11 @@
 const mysql = require('mysql2')
+const config = require('../config/configGlobal')
 
 const pool = mysql.createPool({
-   host: 'localhost',
-   user: 'root',
-   password: 'CH3ATM1999',
-   database: 'db_sacha',
+   host: config.dbHost,
+   user: config.dbUser,
+   password: config.dbPassword,
+   database: config.dbName,
    waitForConnections: true,
    connectionLimit: 10,
    queueLimit: 0
